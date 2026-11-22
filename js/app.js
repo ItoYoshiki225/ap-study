@@ -34,10 +34,21 @@
   let timerId = null;
   const stopTimer = () => { if (timerId) { clearInterval(timerId); timerId = null; } };
 
-  function setTheme(t) { document.documentElement.dataset.theme = t; S.theme = t; save(); }
+  function setTheme(t) {
+    document.documentElement.dataset.theme = t; S.theme = t; save();
+    $("#themeBtn").textContent = t === "dark" ? "☀️" : "🌙";
+    document.querySelector('meta[name="theme-color"]').content = t === "dark" ? "#1d2024" : "#1f6f5c";
+  }
   setTheme(S.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
   $("#themeBtn").onclick = () => setTheme(S.theme === "dark" ? "light" : "dark");
-  $("#menuBtn").onclick = () => $("#sidebar").classList.toggle("open");
+  const menu = open => { $("#sidebar").classList.toggle("open", open); $("#backdrop").classList.toggle("show", open); };
+  $("#menuBtn").onclick = () => menu(!$("#sidebar").classList.contains("open"));
+  $("#backdrop").onclick = () => menu(false);
+
+  // オフライン対応（GitHub Pages など https で配信したときだけ有効）
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
   const d = daysLeft();
   $("#countChip").textContent = d > 0 ? `${E.target.label}まで あと${d}日` : "試験期間中／終了";
 
@@ -59,7 +70,9 @@
       const n = a.dataset.nav;
       a.classList.toggle("active", n === (path || "home") || (n === "units" && (path === "unit" || path === "test")));
     });
-    $("#sidebar").classList.remove("open");
+    const tab = { unit: "units", test: "units", "": "home" }[path] ?? path;
+    document.querySelectorAll("[data-tab]").forEach(a => a.classList.toggle("active", a.dataset.tab === tab));
+    menu(false);
     app.innerHTML = "";
     fn(...rest.map(decodeURIComponent));
     window.scrollTo(0, 0);

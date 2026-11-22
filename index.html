@@ -2,8 +2,17 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>応用情報 合格ノート</title>
+  <meta name="theme-color" content="#1f6f5c">
+  <meta name="description" content="応用情報技術者試験の単元解説・クイズ・模擬試験">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="AP合格ノート">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -15,7 +24,7 @@
     <a href="#/" class="brand"><span class="brand-mark">AP</span><span>応用情報 合格ノート</span></a>
     <div class="topbar-right">
       <span class="countdown-chip" id="countChip"></span>
-      <button class="icon-btn" id="themeBtn" aria-label="テーマ切替">◐</button>
+      <button class="icon-btn" id="themeBtn" aria-label="ダークモード切替">🌙</button>
     </div>
   </header>
 
@@ -44,6 +53,15 @@
     </nav>
     <main id="app" class="main" tabindex="-1"></main>
   </div>
+  <div class="backdrop" id="backdrop"></div>
+
+  <nav class="tabbar" aria-label="クイックナビ">
+    <a href="#/" data-tab="home"><span>🏠</span>ホーム</a>
+    <a href="#/units" data-tab="units"><span>📚</span>単元</a>
+    <a href="#/mock" data-tab="mock"><span>⏱️</span>模試</a>
+    <a href="#/b" data-tab="b"><span>✍️</span>科目B</a>
+    <a href="#/weak" data-tab="weak"><span>🔁</span>復習</a>
+  </nav>
 
   <script src="js/data/exam.js"></script>
   <script src="js/data/units-tech1.js"></script>
